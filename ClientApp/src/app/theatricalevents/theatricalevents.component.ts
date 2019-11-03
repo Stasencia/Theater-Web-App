@@ -1,0 +1,52 @@
+import { Component, OnInit } from '@angular/core';
+import { TheatricaleventsService } from '../theatricalevents.service';
+import { TheatricalEvent } from '../theatricalevent';
+
+@Component({
+  selector: 'app-theatricalevents',
+  templateUrl: './theatricalevents.component.html',
+    styleUrls: ['./theatricalevents.component.css'],
+    providers: [TheatricaleventsService]
+})
+export class TheatricaleventsComponent implements OnInit {
+
+    theatricalevent: TheatricalEvent = new TheatricalEvent();  
+    theatricalevents: TheatricalEvent[];         
+    tableMode: boolean = true;  
+
+    constructor(private dataService: TheatricaleventsService) { }
+
+    ngOnInit() {
+        this.loadTheatricalEvents();  
+    }
+    loadTheatricalEvents() {
+        this.dataService.getTheatricalEvents()
+            .subscribe((data: TheatricalEvent[]) => this.theatricalevents = data);
+    }
+    save() {
+        if (this.theatricalevent.id == null) {
+            this.dataService.createTheatricalEvent(this.theatricalevent)
+                .subscribe((data: TheatricalEvent) => this.theatricalevents.push(data));
+        } else {
+            this.dataService.updateTheatricalEvent(this.theatricalevent)
+                .subscribe(data => this.loadTheatricalEvents());
+        }
+        this.cancel();
+    }
+    editTheatricalEvent(te: TheatricalEvent) {
+        this.theatricalevent = te;
+    }
+    cancel() {
+        this.theatricalevent = new TheatricalEvent();
+        this.tableMode = true;
+    }
+    delete(te: TheatricalEvent) {
+        this.dataService.deleteTheatricalEvent(te.id)
+            .subscribe(data => this.loadTheatricalEvents());
+    }
+    add() {
+        this.cancel();
+        this.tableMode = false;
+    }
+
+}

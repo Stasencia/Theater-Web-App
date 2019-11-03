@@ -45,6 +45,7 @@ namespace ANGULARRRR
             {
                 configuration.RootPath = "ClientApp/dist";
             });
+            services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -74,14 +75,15 @@ namespace ANGULARRRR
             app.UseAuthentication();
             app.UseIdentityServer();
             app.UseAuthorization();
+            
             app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller}/{action=Index}/{id?}");
-                endpoints.MapRazorPages();
-            });
-
+             {
+                 endpoints.MapControllerRoute(
+                     name: "default",
+                     pattern: "{controller}/{action=Index}/{id?}");
+                 endpoints.MapRazorPages();
+             });
+             
             app.UseSpa(spa =>
             {
                 // To learn more about options for serving an Angular SPA from ASP.NET Core,

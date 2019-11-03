@@ -1,0 +1,64 @@
+<h1>Список представлений</h1>
+<input type="button" value="Добавить" class="btn btn-default" (click)="add()" />
+<table *ngIf="tableMode; else create" class="table table-striped">
+  <thead>
+    <tr>
+      <td>Название</td>
+      <td>Описание</td>
+      <td>Продолжительность</td>
+      <td>Картинка</td>
+      <td></td>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let te of theatricalevents">
+      <ng-template [ngIf]="theatricalevent?.id != te.id" [ngIfElse]="edit">
+        <td>{{te?.name}}</td>
+        <td>{{te?.description}}</td>
+        <td>{{te?.duration}}</td>
+        <td>{{te?.image}}</td>
+        <td>
+          <button class="btn btn-sm btn-primary" (click)="editTheatricalEvent(te)">Изменить</button>
+          <button class="btn btn-sm btn-danger" (click)="delete(te)">Удалить</button>
+        </td>
+      </ng-template>
+    </tr>
+  </tbody>
+</table>
+
+<!--шаблон для редактирования-->
+<ng-template #edit>
+  <td>
+    <input type="text" [(ngModel)]="theatricalevent.name" class="form-control" />
+  </td>
+  <td>
+    <input type="text" [(ngModel)]="theatricalevent.description" class="form-control" />
+  </td>
+  <td>
+    <input type="text" [(ngModel)]="theatricalevent.duration" class="form-control" />
+  </td>
+  <td>
+    <input type="button" value="Сохранить" (click)="save()" class="btn btn-sm btn-success" />
+    <input type="button" value="Отмена" (click)="cancel()" class="btn btn-sm btn-warning" />
+  </td>
+</ng-template>
+
+<!--шаблон для добавления-->
+<ng-template #create>
+  <div class="form-group">
+    <label>Название</label>
+    <input type="text" [(ngModel)]="theatricalevent.name" class="form-control" />
+  </div>
+  <div class="form-group">
+    <label>Описание</label>
+    <input type="text" [(ngModel)]="theatricalevent.description" class="form-control" />
+  </div>
+  <div class="form-group">
+    <label>Продолжительность</label>
+    <input type="text" [(ngModel)]="theatricalevent.duration" class="form-control" />
+  </div>
+  <div>
+    <input type="button" value="Сохранить" (click)="save()" class="btn btn-success" />
+    <input type="button" value="Отмена" (click)="cancel()" class="btn btn-warning" />
+  </div>
+</ng-template>
