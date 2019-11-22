@@ -19,6 +19,24 @@ export class TheatricaleventsComponent implements OnInit {
     ngOnInit() {
         this.loadTheatricalEvents();  
     }
+
+    changeListener($event): void {
+        this.readThis($event.target);
+    }
+
+    readThis(inputValue: any): void {
+        var file: File = inputValue.files[0];
+        var myReader: FileReader = new FileReader();
+
+        myReader.onloadend = (e) => {
+            if (myReader.result === 'string')
+                this.theatricalevent.image = myReader.result;
+            else
+                this.theatricalevent.image = myReader.result.toString();
+        }
+        myReader.readAsDataURL(file);
+    }
+
     loadTheatricalEvents() {
         this.dataService.getTheatricalEvents()
             .subscribe((data: TheatricalEvent[]) => this.theatricalevents = data);

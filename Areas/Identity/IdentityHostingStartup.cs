@@ -1,7 +1,7 @@
 ﻿using System;
-using ANGULARRRR.Data;
-using ANGULARRRR.Models;
 using Microsoft.AspNetCore.Hosting;
+using Infrastructure.Data;
+using Core.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.EntityFrameworkCore;

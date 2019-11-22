@@ -6,11 +6,12 @@ using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.EntityFrameworkCore;
-using ANGULARRRR.Data;
-using ANGULARRRR.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using ANGULARRRR.Converters;
+using Infrastructure.Data;
+using Core.Entities;
 
 namespace ANGULARRRR
 {
@@ -39,6 +40,12 @@ namespace ANGULARRRR
             services.AddAuthentication()
                 .AddIdentityServerJwt();
             services.AddControllersWithViews();
+            services.AddControllers()
+            .AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.Converters.Add(new DateTimeConverter());
+                options.JsonSerializerOptions.Converters.Add(new FileToBinaryArrayConverter());
+            });
             services.AddRazorPages();
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
